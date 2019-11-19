@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.TextView
 import com.tioeun.a20191119_01_banklistpractice.R
 import com.tioeun.a20191119_01_banklistpractice.datas.Bank
+import com.bumptech.glide.Glide
 import java.util.ArrayList
 
 class BankAdapter(context: Context, res : Int, list:ArrayList<Bank>) : ArrayAdapter<Bank>(context,res,list) {
@@ -23,6 +26,16 @@ class BankAdapter(context: Context, res : Int, list:ArrayList<Bank>) : ArrayAdap
         }
 
         var row = tempRow!!
+
+        var logoImg = row.findViewById<ImageView>(R.id.logoImg)
+        var bankNameTxt = row.findViewById<TextView>(R.id.bankNameTxt)
+
+        var data = mList.get(position)
+
+        bankNameTxt.text = data.name
+
+        Glide.with(mContext).load(mList[position].logo).into(logoImg)
+
 
         return row
     }
