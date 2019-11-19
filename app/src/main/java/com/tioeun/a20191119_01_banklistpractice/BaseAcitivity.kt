@@ -7,4 +7,6 @@ abstract class BaseAcitivity : AppCompatActivity() {
     abstract fun setupEvents()
 
     abstract fun setValues()
+
+    var mContext = this
 }
