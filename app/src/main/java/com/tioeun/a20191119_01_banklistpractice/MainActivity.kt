@@ -4,13 +4,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.tioeun.a20191119_01_banklistpractice.adapters.BankAdapter
 import com.tioeun.a20191119_01_banklistpractice.datas.Bank
 import com.tioeun.a20191119_01_banklistpractice.utils.ServerUtil
+import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
 
 class MainActivity : BaseAcitivity() {
 
     var bankList = ArrayList<Bank>()
+    var bankAdapter:BankAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +28,10 @@ class MainActivity : BaseAcitivity() {
 
 
     override fun setValues() {
+
+        bankAdapter = BankAdapter(mContext, bankList)
+        bankListView.adapter = bankAdapter
+
         getBanksFromServer()
     }
 
@@ -38,11 +45,15 @@ class MainActivity : BaseAcitivity() {
                     val data = json.getJSONObject("data")
                     val banks = data.getJSONArray("banks")
 
-                    for (i in 0..banks.length()) {
+                    for (i in 0..banks.length()-1) {
                         val bankJsonObject = banks.getJSONObject(i)
                         val bankData = Bank.getBankFromJsonObject(bankJsonObject)
                         bankList.add(bankData)
                     }
+                    runOnUiThread {
+                        bankAdapter?.notifyDataSetChanged()
+                    }
+
                 } else {
                     Toast.makeText(mContext, "서버 통신에 문제가 있습니다.", Toast.LENGTH_SHORT).show()
                 }
