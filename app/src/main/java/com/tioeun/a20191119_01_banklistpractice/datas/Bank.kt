@@ -1,6 +1,6 @@
 package com.tioeun.a20191119_01_banklistpractice.datas
 
-class bank {
+class Bank {
 
     var id = 0
     var code = ""
